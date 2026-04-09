@@ -1,4 +1,4 @@
-from .main import weather
+from .main import main
 
 if __name__ == "__main__":
-    weather()
+    main()
