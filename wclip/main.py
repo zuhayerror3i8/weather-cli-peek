@@ -19,14 +19,11 @@ def get_weather(city, api_key, units):
         return response.json()
     return None
 
-def display_weather(data):
+def display_weather(data, units):
     """
     Displays current weather data.
     """
-    if data:
-        click.echo(json.dumps(data, indent=2))
-    else:
-        click.echo("An unexpected error occurred!")
+    click.echo(json.dumps(data, indent=2))
 
 @click.command()
 @click.argument("city", type=str)
@@ -49,7 +46,10 @@ def main(city, units):
 
     data = get_weather(city, api_key, units)
 
-    display_weather(data)
+    if data:
+        display_weather(data, units)
+    else:
+        click.echo("An unexpected error occurred!")
 
 if __name__ == "__main__":
     main()
