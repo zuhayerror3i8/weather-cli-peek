@@ -7,11 +7,11 @@ from dotenv import load_dotenv
 
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
-def get_weather(city, api_key):
+def get_weather(city, api_key, units):
     """
     Fetches current weather data.
     """
-    request_url = f"{BASE_URL}?q={city}&appid={api_key}&units=metric"
+    request_url = f"{BASE_URL}?q={city}&appid={api_key}&units={units}"
 
     response = requests.get(request_url)
 
@@ -30,7 +30,12 @@ def display_weather(data):
 
 @click.command()
 @click.argument("city", type=str)
-def main(city):
+@click.option("--units",
+              default="metric",
+              show_default=True,
+              type=click.Choice(["metric", "imperial"]),
+              help="Unit system")
+def main(city, units):
     """
     Fetches and displays current weather data for a specified CITY.
     """
@@ -42,7 +47,7 @@ def main(city):
         click.echo("Error: OWM_API_KEY environment variable is missing.")
         sys.exit(1)
 
-    data = get_weather(city, api_key)
+    data = get_weather(city, api_key, units)
 
     display_weather(data)
 
