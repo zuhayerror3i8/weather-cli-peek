@@ -39,8 +39,16 @@ def get_weather(lat, lon, units):
         "latitude": lat,
         "longitude": lon,
         "current": [
+            "weather_code",
             "temperature_2m",
-            "wind_speed_10m"
+            "apparent_temperature",
+            "relative_humidity_2m",
+            "precipitation",
+            "wind_speed_10m",
+            "wind_direction_10m",
+            "cloud_cover",
+            "visibility",
+            "surface_pressure"
         ],
         "temperature_unit": temperature_unit,
         "wind_speed_unit": wind_speed_unit,
