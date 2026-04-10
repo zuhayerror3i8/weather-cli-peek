@@ -3,6 +3,7 @@ import click
 import requests
 from rich.console import Console
 from rich.table import Table
+from rich.panel import Panel
 
 GEO_URL = "https://geocoding-api.open-meteo.com/v1/search"
 WEATHER_URL = "https://api.open-meteo.com/v1/forecast"
@@ -91,7 +92,7 @@ def get_weather(lat, lon, units):
             return data
     return None
 
-def display_weather(data, units):
+def display_weather(location, data, units):
     """
     Displays current weather data.
     """
@@ -152,7 +153,13 @@ def display_weather(data, units):
     for label, value in rows:
         table.add_row(label, value)
 
-    console.print(table)
+    panel = Panel(table,
+                  title=f"{location["name"]}, {location["country"]}",
+                  subtitle="Powered by Open-Meteo",
+                  padding=(1, 2),
+                  expand=False)
+
+    console.print(panel)
 
 @click.command()
 @click.argument("city", type=str)
@@ -174,7 +181,7 @@ def main(city, units):
     data = get_weather(location["latitude"], location["longitude"], units)
 
     if data:
-        display_weather(data, units)
+        display_weather(location, data, units)
     else:
         console.print("[red]An unexpected error occurred![/red]")
 
