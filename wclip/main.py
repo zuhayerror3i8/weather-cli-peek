@@ -36,6 +36,69 @@ def format_visibility(meters, units):
         return f"{meters / 1000:.1f} km"
     return f"{meters / 1609.34:.1f} mi"
 
+def color_temperature(celsius):
+    if celsius < 0:
+        return "bright_cyan"
+    if celsius < 15:
+        return "bright_blue"
+    if celsius < 27:
+        return "bright_green"
+    if celsius < 35:
+        return "bright_yellow"
+    return "bright_red"
+
+def color_relative_humidity(percent):
+    if percent < 30:
+        return "bright_yellow"
+    if percent < 60:
+        return "bright_green"
+    if percent < 80:
+        return "bright_cyan"
+    return "bright_blue"
+
+def color_wind_speed(kmh):
+    if kmh < 10:
+        return "bright_green"
+    if kmh < 30:
+        return "bright_yellow"
+    if kmh < 60:
+        return "dark_orange"
+    return "bright_red"
+
+def color_visibility(km):
+    if km < 3:
+        return "bright_red"
+    if km < 7:
+        return "dark_orange"
+    if km < 10:
+        return "bright_yellow"
+    return "bright_green"
+
+def color_cloud_cover(percent):
+    if percent < 25:
+        return "light_cyan1"
+    if percent < 50:
+        return "sky_blue1"
+    if percent < 75:
+        return "deep_sky_blue3"
+    return "grey50"
+
+def color_precipitation(mm):
+    if mm == 0:
+        return "bright_green"
+    if mm < 3:
+        return "bright_yellow"
+    if mm < 10:
+        return "dark_orange"
+    return "bright_red"
+
+def color_surface_pressure(hpa):
+    if hpa < 1000:
+        return "bright_red"
+    if hpa < 1020:
+        return "bright_green"
+    return "bright_cyan"
+
 def get_coordinates(city):
     """
     Fetches coordinates.
@@ -119,22 +182,37 @@ def display_weather(location, data, units):
     cloud_cover_unit = curr_units["cloud_cover"]
     surface_pressure_unit = curr_units["surface_pressure"]
 
+    temp_dif_v = temperature if units == "metric" else (temperature - 32) * 5 / 9
+    app_temp_dif_v = apparent_temperature if units == "metric" else (apparent_temperature - 32) * 5 / 9
+    precip_dif_v = precipitation if units == "metric" else (precipitation * 25.4)
+    wind_spd_dif_v = wind_speed if units == "metric" else (wind_speed * 1.60934)
+    vis_dif_v = curr["visibility"] / 1000
+
+    t_c = color_temperature(temp_dif_v)
+    at_c = color_temperature(app_temp_dif_v)
+    rh_c = color_relative_humidity(relative_humidity)
+    p_c = color_precipitation(precip_dif_v)
+    ws_c = color_wind_speed(wind_spd_dif_v)
+    cc_c = color_cloud_cover(cloud_cover)
+    v_c = color_visibility(vis_dif_v)
+    sp_c = color_surface_pressure(surface_pressure)
+
     weather_condition_str = f"{weather_condition}"
-    temperature_str = f"{temperature} {temperature_unit}"
-    apparent_temperature_str = f"{apparent_temperature} {apparent_temperature_unit}"
-    relative_humidity_str = f"{relative_humidity} {relative_humidity_unit}"
-    precipitation_str = f"{precipitation} {precipitation_unit}"
-    wind_speed_str = f"{wind_speed} {wind_speed_unit}"
+    temperature_str = f"[{t_c}]{temperature} {temperature_unit}[/]"
+    apparent_temperature_str = f"[{at_c}]{apparent_temperature} {apparent_temperature_unit}[/]"
+    relative_humidity_str = f"[{rh_c}]{relative_humidity} {relative_humidity_unit}[/]"
+    precipitation_str = f"[{p_c}]{precipitation} {precipitation_unit}[/]"
+    wind_speed_str = f"[{ws_c}]{wind_speed} {wind_speed_unit}[/]"
     wind_direction_str = f"{wind_direction}"
-    cloud_cover_str = f"{cloud_cover} {cloud_cover_unit}"
-    visibility_str = f"{visibility}"
-    surface_pressure_str = f"{surface_pressure} {surface_pressure_unit}"
+    cloud_cover_str = f"[{cc_c}]{cloud_cover} {cloud_cover_unit}[/]"
+    visibility_str = f"[{v_c}]{visibility}[/]"
+    surface_pressure_str = f"[{sp_c}]{surface_pressure} {surface_pressure_unit}[/]"
 
     table = Table(show_header=False,
                   box=None,
                   padding=(0, 2))
 
-    table.add_column(style="dim", width=24)
+    table.add_column(style="bright_black", width=24)
     table.add_column()
 
     rows = [
@@ -154,8 +232,9 @@ def display_weather(location, data, units):
         table.add_row(label, value)
 
     panel = Panel(table,
-                  title=f"{location["name"]}, {location["country"]}",
-                  subtitle="Powered by Open-Meteo",
+                  title=f"[bold {t_c}]{location['name']}, {location['country']}[/]",
+                  subtitle=f"[{t_c}]Powered by Open-Meteo[/]",
+                  border_style=t_c,
                   padding=(1, 2),
                   expand=False)
 
@@ -175,7 +254,7 @@ def main(city, units):
     location = get_coordinates(city)
 
     if not location:
-        console.print("[red]Location lookup failed. Please verify spelling or connection![/red]")
+        console.print("[bright_red]Location lookup failed. Please verify spelling or connection![/]")
         sys.exit(1)
 
     data = get_weather(location["latitude"], location["longitude"], units)
@@ -183,7 +262,7 @@ def main(city, units):
     if data:
         display_weather(location, data, units)
     else:
-        console.print("[red]An unexpected error occurred![/red]")
+        console.print("[bright_red]An unexpected error occurred![/]")
 
 if __name__ == "__main__":
     main()
