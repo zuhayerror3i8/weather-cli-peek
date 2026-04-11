@@ -8,11 +8,11 @@ from .constants import (
 from .colors import (
     color_temperature,
     color_relative_humidity,
-    color_wind_speed,
-    color_visibility,
-    color_cloud_cover,
     color_precipitation,
-    color_surface_pressure
+    color_wind_speed,
+    color_cloud_cover,
+    color_visibility,
+    color_surface_pressure,
 )
 
 console = Console()

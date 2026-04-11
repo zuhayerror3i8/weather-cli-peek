@@ -18,6 +18,15 @@ def color_relative_humidity(percent):
         return "bright_cyan"
     return "bright_blue"
 
+def color_precipitation(mm):
+    if mm == 0:
+        return "bright_green"
+    if mm < 3:
+        return "bright_yellow"
+    if mm < 10:
+        return "dark_orange"
+    return "bright_red"
+
 def color_wind_speed(kmh):
     if kmh < 10:
         return "bright_green"
@@ -26,15 +35,6 @@ def color_wind_speed(kmh):
     if kmh < 60:
         return "dark_orange"
     return "bright_red"
-
-def color_visibility(km):
-    if km < 3:
-        return "bright_red"
-    if km < 7:
-        return "dark_orange"
-    if km < 10:
-        return "bright_yellow"
-    return "bright_green"
 
 def color_cloud_cover(percent):
     if percent < 25:
@@ -45,14 +45,14 @@ def color_cloud_cover(percent):
         return "deep_sky_blue3"
     return "grey50"
 
-def color_precipitation(mm):
-    if mm == 0:
-        return "bright_green"
-    if mm < 3:
-        return "bright_yellow"
-    if mm < 10:
+def color_visibility(km):
+    if km < 3:
+        return "bright_red"
+    if km < 7:
         return "dark_orange"
-    return "bright_red"
+    if km < 10:
+        return "bright_yellow"
+    return "bright_green"
 
 def color_surface_pressure(hpa):
     if hpa < 1000:
