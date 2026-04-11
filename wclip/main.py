@@ -251,13 +251,19 @@ def main(city, units):
     """
     Fetches and displays current weather data for a specified CITY.
     """
-    location = get_coordinates(city)
+    with console.status(f"[dark_turquoise]Locating geographic coordinates for [bold cornsilk1]<{city}>...[/]",
+                        spinner="point",
+                        spinner_style="dark_turquoise"):
+        location = get_coordinates(city)
 
     if not location:
         console.print("[bright_red]Location lookup failed. Please verify spelling or connection![/]")
         sys.exit(1)
 
-    data = get_weather(location["latitude"], location["longitude"], units)
+    with console.status(f"[dark_turquoise]Fetching meteorological data from [bold cornsilk1]<Open-Meteo>...[/]",
+                        spinner="point",
+                        spinner_style="dark_turquoise"):
+        data = get_weather(location["latitude"], location["longitude"], units)
 
     if data:
         display_weather(location, data, units)
