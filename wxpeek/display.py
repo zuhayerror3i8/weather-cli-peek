@@ -52,20 +52,20 @@ def display_weather(location, data, units):
     cloud_cover_unit = curr_units["cloud_cover"]
     surface_pressure_unit = curr_units["surface_pressure"]
 
-    temp_dif_v = temperature if units == "metric" else (temperature - 32) * 5 / 9
-    app_temp_dif_v = apparent_temperature if units == "metric" else (apparent_temperature - 32) * 5 / 9
-    precip_dif_v = precipitation if units == "metric" else (precipitation * 25.4)
-    wind_spd_dif_v = wind_speed if units == "metric" else (wind_speed * 1.60934)
-    vis_dif_v = curr["visibility"] / 1000
+    temp_celsius = temperature if units == "metric" else (temperature - 32) * 5 / 9
+    app_temp_celsius = apparent_temperature if units == "metric" else (apparent_temperature - 32) * 5 / 9
+    precip_mm = precipitation if units == "metric" else (precipitation * 25.4)
+    wind_spd_kmh = wind_speed if units == "metric" else (wind_speed * 1.60934)
+    vis_km = curr["visibility"] / 1000
 
     neutral_color = "cyan"
-    t_c = color_temperature(temp_dif_v)
-    at_c = color_temperature(app_temp_dif_v)
+    t_c = color_temperature(temp_celsius)
+    at_c = color_temperature(app_temp_celsius)
     rh_c = color_relative_humidity(relative_humidity)
-    p_c = color_precipitation(precip_dif_v)
-    ws_c = color_wind_speed(wind_spd_dif_v)
+    p_c = color_precipitation(precip_mm)
+    ws_c = color_wind_speed(wind_spd_kmh)
     cc_c = color_cloud_cover(cloud_cover)
-    v_c = color_visibility(vis_dif_v)
+    v_c = color_visibility(vis_km)
     sp_c = color_surface_pressure(surface_pressure)
 
     weather_condition_str = f"[{neutral_color}]{weather_condition}[/]"
