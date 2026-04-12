@@ -58,6 +58,7 @@ def display_weather(location, data, units):
     wind_spd_dif_v = wind_speed if units == "metric" else (wind_speed * 1.60934)
     vis_dif_v = curr["visibility"] / 1000
 
+    neutral_color = "cyan"
     t_c = color_temperature(temp_dif_v)
     at_c = color_temperature(app_temp_dif_v)
     rh_c = color_relative_humidity(relative_humidity)
@@ -67,13 +68,13 @@ def display_weather(location, data, units):
     v_c = color_visibility(vis_dif_v)
     sp_c = color_surface_pressure(surface_pressure)
 
-    weather_condition_str = f"{weather_condition}"
+    weather_condition_str = f"[{neutral_color}]{weather_condition}[/]"
     temperature_str = f"[{t_c}]{temperature} {temperature_unit}[/]"
     apparent_temperature_str = f"[{at_c}]{apparent_temperature} {apparent_temperature_unit}[/]"
     relative_humidity_str = f"[{rh_c}]{relative_humidity} {relative_humidity_unit}[/]"
     precipitation_str = f"[{p_c}]{precipitation} {precipitation_unit}[/]"
     wind_speed_str = f"[{ws_c}]{wind_speed} {wind_speed_unit}[/]"
-    wind_direction_str = f"{wind_direction}"
+    wind_direction_str = f"[{neutral_color}]{wind_direction}[/]"
     cloud_cover_str = f"[{cc_c}]{cloud_cover} {cloud_cover_unit}[/]"
     visibility_str = f"[{v_c}]{visibility}[/]"
     surface_pressure_str = f"[{sp_c}]{surface_pressure} {surface_pressure_unit}[/]"
