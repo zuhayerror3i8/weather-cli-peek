@@ -1,5 +1,5 @@
 import requests
-from .constants import (
+from ..constants import (
     GEO_URL,
     WEATHER_URL
 )

@@ -1,11 +1,11 @@
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
-from .constants import (
+from ..constants import (
     WMO_CODES,
     COMPASS
 )
-from .colors import (
+from ..colors import (
     color_temperature,
     color_relative_humidity,
     color_precipitation,
