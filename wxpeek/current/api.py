@@ -1,27 +1,5 @@
 import requests
-from ..constants import (
-    GEO_URL,
-    WEATHER_URL
-)
-
-def get_coordinates(city):
-    """
-    Fetches coordinates.
-    """
-    geo_params = {
-        "name": city,
-        "count": 1,
-        "language": "en",
-        "format": "json"
-    }
-
-    response = requests.get(GEO_URL, params=geo_params)
-
-    if response.status_code == 200:
-        results = response.json().get("results")
-        if results:
-            return results[0]
-    return None
+from ..constants import WEATHER_URL
 
 def get_current(lat, lon, units):
     """

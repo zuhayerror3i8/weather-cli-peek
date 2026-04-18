@@ -1,10 +1,8 @@
 import sys
 import click
 from rich.console import Console
-from .current.api import (
-    get_coordinates,
-    get_current
-)
+from .utils import get_coordinates
+from .current.api import get_current
 from .current.display import display_current
 
 console = Console()

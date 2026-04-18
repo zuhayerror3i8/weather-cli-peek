@@ -1,9 +1,10 @@
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
-from ..constants import (
-    WMO_CODES,
-    COMPASS
+from ..constants import WMO_CODES
+from ..utils import (
+    deg_to_compass,
+    format_visibility
 )
 from ..colors import (
     color_temperature,
@@ -16,14 +17,6 @@ from ..colors import (
 )
 
 console = Console()
-
-def deg_to_compass(degrees):
-    return COMPASS[round(degrees / 45) % 8]
-
-def format_visibility(meters, units):
-    if units == "metric":
-        return f"{meters / 1000:.1f} km"
-    return f"{meters / 1609.34:.1f} mi"
 
 def display_current(location, data, units):
     """
