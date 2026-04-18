@@ -23,7 +23,7 @@ def get_coordinates(city):
             return results[0]
     return None
 
-def get_weather(lat, lon, units):
+def get_current(lat, lon, units):
     """
     Fetches current weather data.
     """

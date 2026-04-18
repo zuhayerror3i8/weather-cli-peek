@@ -25,7 +25,7 @@ def format_visibility(meters, units):
         return f"{meters / 1000:.1f} km"
     return f"{meters / 1609.34:.1f} mi"
 
-def display_weather(location, data, units):
+def display_current(location, data, units):
     """
     Displays current weather data.
     """

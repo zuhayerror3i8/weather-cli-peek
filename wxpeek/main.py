@@ -3,9 +3,9 @@ import click
 from rich.console import Console
 from .api import (
     get_coordinates,
-    get_weather
+    get_current
 )
-from .display import display_weather
+from .display import display_current
 
 console = Console()
 
@@ -32,10 +32,10 @@ def main(city, units):
     with console.status(f"[dark_turquoise]Fetching meteorological data from [bold cornsilk1]<Open-Meteo>...[/]",
                         spinner="point",
                         spinner_style="dark_turquoise"):
-        data = get_weather(location["latitude"], location["longitude"], units)
+        data = get_current(location["latitude"], location["longitude"], units)
 
     if data:
-        display_weather(location, data, units)
+        display_current(location, data, units)
     else:
         console.print("[bright_red]An unexpected error occurred![/]")
 
