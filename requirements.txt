@@ -6,6 +6,7 @@ idna==3.11
 markdown-it-py==4.0.0
 mdurl==0.1.2
 Pygments==2.20.0
+pytz==2026.1.post1
 requests==2.33.1
 rich==14.3.3
 urllib3==2.6.3

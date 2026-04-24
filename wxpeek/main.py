@@ -4,6 +4,8 @@ from rich.console import Console
 from .utils import get_coordinates
 from .current.api import get_current
 from .current.display import display_current
+from .hourly.api import get_hourly
+from .hourly.display import display_hourly
 
 console = Console()
 
@@ -14,7 +16,10 @@ console = Console()
               show_default=True,
               type=click.Choice(["metric", "imperial"]),
               help="Unit system")
-def main(city, units):
+@click.option("--hourly",
+              is_flag=True,
+              help="Show 24-hour forecast")
+def main(city, units, hourly):
     """
     Fetches and displays current weather data for a specified CITY.
     """
@@ -31,11 +36,18 @@ def main(city, units):
                         spinner="point",
                         spinner_style="dark_turquoise"):
         data = get_current(location["latitude"], location["longitude"], units)
+        hourly_data = get_hourly(location["latitude"], location["longitude"], units)
 
     if data:
         display_current(location, data, units)
     else:
         console.print("[bright_red]An unexpected error occurred![/]")
+
+    if hourly:
+        if hourly_data:
+            display_hourly(location, hourly_data, units)
+        else:
+            console.print("[bright_red]An unexpected error occurred![/]")
 
 if __name__ == "__main__":
     main()
